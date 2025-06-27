@@ -1,18 +1,28 @@
-const config = {
-  apiKey: process.env.NEXT_PUBLIC_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID
-} as const;
+import type { FirebaseOptions } from 'firebase/app';
 
-type Config = typeof config;
+const config: FirebaseOptions = {
+  apiKey: 'AIzaSyD_hz1uDLweZyF2vdH5_XIjH5AE3MheO80',
+  authDomain: 'hhhmhvn.firebaseapp.com',
+  projectId: 'hhhmhvn',
+  storageBucket: 'hhhmhvn.appspot.com',
+  messagingSenderId: '699200122926',
+  appId: '699200122926:web:920be98a6cd547999f6fbf',
+  measurementId: 'G-XBWRH9KKG7' // optional; remove this line if you do not use analytics
+};
 
-export function getFirebaseConfig(): Config {
-  if (Object.values(config).some((value) => !value))
-    throw new Error('Firebase config is not set or incomplete');
-
+export function getFirebaseConfig(): FirebaseOptions {
+  const requiredKeys: (keyof FirebaseOptions)[] = [
+    'apiKey',
+    'authDomain',
+    'projectId',
+    'storageBucket',
+    'messagingSenderId',
+    'appId'
+  ];
+  for (const key of requiredKeys) {
+    if (!config[key]) {
+      throw new Error(`Firebase config is missing required key: ${key}`);
+    }
+  }
   return config;
 }
